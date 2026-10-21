@@ -1,0 +1,53 @@
+name: Validate Compose
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/compose.yaml'
+      - '**/Dockerfile'
+      - 'site/catalog.js'
+      - 'tools/check-catalog.js'
+      - '.github/workflows/validate-compose.yml'
+  pull_request:
+    paths:
+      - '**/compose.yaml'
+      - '**/Dockerfile'
+      - 'site/catalog.js'
+      - 'tools/check-catalog.js'
+      - '.github/workflows/validate-compose.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Проверка конфигураций
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Подготовить Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # compose не поднимается без этих переменных — стек libredb-studio
+      # требует их явно, иначе проверка конфигурации не пройдёт.
+      - name: Проверить compose-файлы
+        env:
+          ADMIN_EMAIL: admin@example.com
+          ADMIN_PASSWORD: validation-only
+          JWT_SECRET: validation-only-secret-value-32-chars
+          SECRET_KEY: validation-only
+        run: |
+          set -e
+          count=0
+          for file in $(find . -name 'compose.yaml' -not -path './.git/*' | sort); do
+            echo "→ $file"
+            docker compose -f "$file" config --quiet
+            count=$((count + 1))
+          done
+          echo "✅ Проверено файлов: $count"
+
+      - name: Сверить каталог сайта с compose-файлами
+        run: node tools/check-catalog.js

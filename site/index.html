@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compose Studio — каталог Docker Compose стеков</title>
+<meta name="description" content="Интерактивный каталог готовых Docker Compose стеков: состав сервисов, образы, порты, тома и схемы связей.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="blueprint" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="brand" href="./">
+    <span class="brand__glyph" aria-hidden="true">◧</span>
+    <span class="brand__name">compose<span class="brand__slash">/studio</span></span>
+  </a>
+
+  <nav class="nav" aria-label="Разделы страницы">
+    <a href="#catalog">Каталог</a>
+    <a href="#schema">Схема</a>
+    <a href="#ports">Порты</a>
+  </nav>
+
+  <button class="theme-toggle" type="button" data-theme-toggle>
+    <span class="theme-toggle__glyph" aria-hidden="true">◐</span>
+    <span data-theme-label>Светлая</span>
+  </button>
+</header>
+
+<main>
+  <section class="intro">
+    <p class="intro__tag"><span class="intro__dot" aria-hidden="true"></span>docker compose · лабораторные стеки</p>
+    <h1 class="intro__title">
+      Двенадцать готовых стеков,<br>
+      <span class="intro__accent">каждый поднимается одной командой</span>
+    </h1>
+    <p class="intro__lead">
+      СУБД, CMS и веб-инструменты для работы с базами. Все конфигурации лежат в
+      одном репозитории, разнесены по отдельным каталогам и не зависят друг от
+      друга — поднимайте нужный, а не все сразу.
+    </p>
+
+    <div class="intro__stats">
+      <div class="stat"><b>12</b><span>стеков</span></div>
+      <div class="stat"><b>9</b><span>на готовых образах</span></div>
+      <div class="stat"><b>3</b><span>собираются из Dockerfile</span></div>
+      <div class="stat"><b>14</b><span>занятых портов</span></div>
+    </div>
+  </section>
+
+  <section id="catalog">
+    <div class="head">
+      <div>
+        <h2 class="head__title">Каталог</h2>
+        <p class="head__lead">Выберите стек — ниже появится его схема и команда запуска.</p>
+      </div>
+      <div class="search">
+        <input type="search" data-search placeholder="Имя стека или порт…" autocomplete="off" aria-label="Поиск по стекам">
+        <span class="search__count" data-count>12</span>
+      </div>
+    </div>
+
+    <div class="catalog" data-catalog></div>
+  </section>
+
+  <section id="schema" class="schema">
+    <div class="head">
+      <div>
+        <h2 class="head__title">Схема стека</h2>
+        <p class="head__lead">Контейнеры, сети, тома и порты — как это собрано в compose-файле.</p>
+      </div>
+    </div>
+
+    <div class="schema__panel">
+      <div class="schema__bar">
+        <div class="schema__id">
+          <span class="schema__name" data-schema-name>—</span>
+          <span class="schema__kind" data-schema-kind></span>
+        </div>
+        <div class="schema__run">
+          <code data-schema-cmd></code>
+          <button type="button" data-copy-cmd data-label="копировать">копировать</button>
+        </div>
+      </div>
+
+      <div class="schema__canvas" data-schema-canvas></div>
+
+      <dl class="schema__meta" data-schema-meta></dl>
+    </div>
+  </section>
+
+  <section id="ports">
+    <div class="head">
+      <div>
+        <h2 class="head__title">Карта портов</h2>
+        <p class="head__lead">Кто на что завязан. Порты разведены, чтобы стеки не конфликтовали.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="ports">
+        <thead>
+          <tr><th>Порт</th><th>Сервис</th><th>Стек</th><th>Адрес</th></tr>
+        </thead>
+        <tbody data-ports></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>Compose Studio · каталог стеков из репозитория <code>Docker-Compose</code></p>
+</footer>
+
+<script src="./catalog.js"></script>
+<script src="./script.js"></script>
+</body>
+</html>
