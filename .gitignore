@@ -1,0 +1,25 @@
+# ---- Данные контейнеров и рабочие каталоги ----
+cloudbeaver/workspace/
+postgresql/data/
+postgresql/backups/
+homehub/uploads/
+homehub/media/
+homehub/pdfs/
+homehub/data/
+
+# ---- Переменные окружения ----
+.env
+.env.*
+!.env.example
+
+# ---- Локальные файлы сайта ----
+site/node_modules/
+
+# ---- Редакторы и ОС ----
+.vscode/
+.idea/
+*.iml
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
