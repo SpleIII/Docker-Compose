@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: cloudbeaver-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - cloudbeaver-net
+
+  cloudbeaver:
+    build: .
+    container_name: cloudbeaver-dockerfile
+    restart: unless-stopped
+    ports:
+      - "8979:8978"
+    depends_on:
+      - db
+    volumes:
+      - cloudbeaver_workspace:/opt/cloudbeaver/workspace
+    networks:
+      - cloudbeaver-net
+
+networks:
+  cloudbeaver-net:
+
+volumes:
+  db_data:
+  cloudbeaver_workspace:
